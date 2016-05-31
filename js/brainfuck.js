@@ -4,7 +4,7 @@
 window.onload = function() {
 
   // Constants
-  const TOKENS = '.,<>[]+-';
+  const TOKENS = '+-<>[].,';
 
   // Dom elements
   var codeArea = document.getElementById('code');
@@ -33,8 +33,46 @@ window.onload = function() {
 
   // Interpreter object
   var interpreter = {
-    parse: (code) => {
-      console.log(code)
+    // Starts with a stack and a pointer to the first index
+    stack: [],
+    pointer: 0,
+    // Checks for illegal characters
+    parse: function(code) {
+      var tokens = [...code];
+      var badChars = tokens.filter((token) =>
+        TOKENS.indexOf(token) < 0
+      );
+      if (badChars.length > 0) {
+        this.giveError('Illegal Character');
+      }
+      else {
+        this.interpret(tokens);
+      }
+    },
+    interpret: function(tokens) {
+      for (i = 0; i < tokens.length; i++) {
+        switch(tokens[i]) {
+          case '+':
+            break;
+          case '-':
+             break;
+          case '<':
+             break;
+          case '>':
+             break;
+          case '[':
+             break;
+          case ']':
+             break;
+          case '.':
+             break;
+          case ',':
+             break;
+        }
+      }
+    },
+    giveError: function(msg) {
+      error.innerHTML = msg;
     }
   };
 }
