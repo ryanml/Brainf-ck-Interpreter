@@ -3,10 +3,13 @@ textarea {
   height:100px;
 }
 hr {
-  margin:20px 0px 20px 0px;
+  margin:20px 0px;
 }
 #wrapper {
   text-align:center;
+}
+.button-panel {
+  margin:10px 0px;
 }
 #error {
   color:#ff0000;

@@ -10,23 +10,30 @@
     <header>
       <h2>Brainfuck Interpreter</h2>
     </header>
-    <p>
-      <strong>Code:</strong>
-    </p>
-    <textarea id="code"></textarea>
-    <p>
-      <strong>Input:</strong>
-    </p>
-    <input id="code-input"/>
+    <div id="input-panel">
+      <p>
+        <strong>Code:</strong>
+      </p>
+      <textarea id="code"></textarea>
+      <p>
+        <strong>Input:</strong>
+      </p>
+      <input id="code-input"/>
+      <div class="button-panel">
+        <button id="clear-input">Clear</button>
+      </div>
+    </div>
     <hr/>
-    <p>
-      <strong>Output:</strong>
-    </p>
-    <p id="error"></p>
-    <textarea id="code-output"></textarea>
-    <div id="button-panel">
-      <button id="run">Run</button>
-      <button id="clear">Clear</button>
+    <div id="output-panel">
+      <p>
+        <strong>Output:</strong>
+      </p>
+      <p id="error"></p>
+      <textarea id="code-output"></textarea>
+      <div class="button-panel">
+        <button id="run">Run</button>
+        <button id="clear-output">Clear</button>
+      </div>
     </div>
    </div>
 </body>

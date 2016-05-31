@@ -12,11 +12,13 @@ window.onload = function() {
   var output = document.getElementById('code-output');
   var error = document.getElementById('error');
   var run = document.getElementById('run');
-  var clear = document.getElementById('clear');
+  var clearInputs = document.getElementById('clear-input');
+  var clearOutput = document.getElementById('clear-output');
 
   // Events
   run.addEventListener('click', start);
-  clear.addEventListener('click', clearFields);
+  clearInputs.addEventListener('click', clearFields);
+  clearOutput.addEventListener('click', clearFields);
 
   // Start event
   function start() {
@@ -25,10 +27,14 @@ window.onload = function() {
 
   // Clears all fields
   function clearFields() {
-    code.value = '';
-    input.value = '';
+    if (this.id === 'clear-input') {
+      code.value = '';
+      input.value = '';
+    }
+    else {
+      output.value = '';
+    }
     error.innerHTML = '';
-    output.value = '';
   }
 
   // Interpreter object
