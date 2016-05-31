@@ -35,9 +35,11 @@ window.onload = function() {
   var interpreter = {
     // Starts with a stack and a pointer to the first index
     stack: [],
-    pointer: 0,
+    ptr: 0,
     // Checks for illegal characters
     parse: function(code) {
+      this.stack = [];
+      this.ptr = 0;
       var tokens = [...code];
       var badChars = tokens.filter((token) =>
         TOKENS.indexOf(token) < 0
@@ -53,21 +55,39 @@ window.onload = function() {
       for (i = 0; i < tokens.length; i++) {
         switch(tokens[i]) {
           case '+':
+            this.stack[this.ptr] = this.stack[this.ptr] || 0;
+            this.stack[this.ptr]++;
             break;
           case '-':
-             break;
+            this.stack[this.ptr] = this.stack[this.ptr] || 0;
+            this.stack[this.ptr]--;
+            break;
           case '<':
-             break;
+            if (this.ptr === 0) {
+              this.giveError('Index out of bounds error');
+            }
+            else {
+              this.ptr--;
+            }
+            break;
           case '>':
-             break;
+            if (this.ptr === 29999) {
+              this.giveError('Index out of bounds error');
+            }
+            else {
+              this.ptr++;
+            }
+            break;
           case '[':
-             break;
+            break;
           case ']':
-             break;
+            break;
           case '.':
-             break;
+            var asciiChar = String.fromCharCode(this.stack[this.ptr]);
+            output.value += asciiChar;
+            break;
           case ',':
-             break;
+            break;
         }
       }
     },
