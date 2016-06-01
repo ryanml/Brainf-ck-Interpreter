@@ -8,7 +8,7 @@ window.onload = function() {
 
   // Dom elements
   var codeArea = document.getElementById('code');
-  var input = document.getElementById('code-input');
+  var inputArea = document.getElementById('code-input');
   var output = document.getElementById('code-output');
   var error = document.getElementById('error');
   var run = document.getElementById('run');
@@ -22,14 +22,14 @@ window.onload = function() {
 
   // Start event
   function start() {
-    interpreter.parse(codeArea.value);
+    interpreter.parse(codeArea.value, inputArea.value);
   }
 
   // Clears all fields
   function clearFields() {
     if (this.id === 'clear-input') {
-      code.value = '';
-      input.value = '';
+      codeArea.value = '';
+      inputArea.value = '';
     }
     else {
       output.value = '';
@@ -43,21 +43,27 @@ window.onload = function() {
     stack: [],
     ptr: 0,
     // Checks for illegal characters
-    parse: function(code) {
+    parse: function(code, input) {
       this.stack = [];
       this.ptr = 0;
       var tokens = [...code];
-      var badChars = tokens.filter((token) =>
-        TOKENS.indexOf(token) < 0
-      );
-      if (badChars.length > 0) {
-        this.giveError('Illegal Character');
+      var inputs = [...input];
+      if (tokens.length === 0) {
+        this.giveError('You must input some code');
       }
       else {
-        this.interpret(tokens);
+        var badChars = tokens.filter((token) =>
+          TOKENS.indexOf(token) < 0
+        );
+        if (badChars.length > 0) {
+          this.giveError('Illegal Character(s)');
+        }
+        else {
+          this.interpret(tokens, inputs);
+        }
       }
     },
-    interpret: function(tokens) {
+    interpret: function(tokens, inputs) {
       for (i = 0; i < tokens.length; i++) {
         switch(tokens[i]) {
           case '+':
@@ -93,6 +99,9 @@ window.onload = function() {
             output.value += asciiChar;
             break;
           case ',':
+            if (inputs.length > 0) {
+              this.stack[this.ptr] = String(inputs.shift().charCodeAt(0));
+            }
             break;
         }
       }
