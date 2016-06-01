@@ -36,18 +36,18 @@ window.onload = function() {
     }
     error.innerHTML = '';
   }
-
   // Interpreter object
   var interpreter = {
     // Starts with a stack and a pointer to the first index
     stack: [],
     ptr: 0,
+    input: [],
     // Checks for illegal characters
     parse: function(code, input) {
       this.stack = [];
       this.ptr = 0;
+      this.input = [...input];
       var tokens = [...code];
-      var inputs = [...input];
       if (tokens.length === 0) {
         this.giveError('You must input some code');
       }
@@ -61,7 +61,7 @@ window.onload = function() {
         else {
           var validSyntax = this.checkSyntax(tokens);
           if (validSyntax) {
-            this.interpret(tokens, inputs);
+            this.interpret(tokens);
           }
           else {
             this.giveError('Syntax error.');
@@ -86,7 +86,7 @@ window.onload = function() {
       }
       return pStack.length === 0 ? true: false;
     },
-    interpret: function(tokens, inputs) {
+    interpret: function(tokens) {
       for (i = 0; i < tokens.length; i++) {
         switch(tokens[i]) {
           case '+':
@@ -122,8 +122,8 @@ window.onload = function() {
             output.value += asciiChar;
             break;
           case ',':
-            if (inputs.length > 0) {
-              this.stack[this.ptr] = String(inputs.shift().charCodeAt(0));
+            if (this.input.length > 0) {
+              this.stack[this.ptr] = String(this.input.shift().charCodeAt(0));
             }
             break;
         }
