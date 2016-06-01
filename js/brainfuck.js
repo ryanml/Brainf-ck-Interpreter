@@ -4,7 +4,7 @@
 window.onload = function() {
 
   // Constants
-  const TOKENS = '+-<>[].,';
+  const ALLOWED_CHARS = '+-<>[]., ';
 
   // Dom elements
   var codeArea = document.getElementById('code');
@@ -53,15 +53,38 @@ window.onload = function() {
       }
       else {
         var badChars = tokens.filter((token) =>
-          TOKENS.indexOf(token) < 0
+          ALLOWED_CHARS.indexOf(token) < 0
         );
         if (badChars.length > 0) {
           this.giveError('Illegal Character(s)');
         }
         else {
-          this.interpret(tokens, inputs);
+          var validSyntax = this.checkSyntax(tokens);
+          if (validSyntax) {
+            this.interpret(tokens, inputs);
+          }
+          else {
+            this.giveError('Syntax error.');
+          }
         }
       }
+    },
+    checkSyntax: function(tokens) {
+      var pStack = [];
+      for (c = 0; c < tokens.length; c++) {
+        if (tokens[c] === '[') {
+          pStack.push(tokens[c]);
+        }
+        else if (tokens[c] === ']') {
+          if (pStack.length === 0) {
+            return false;
+          }
+          else {
+            pStack.pop();
+          }
+        }
+      }
+      return pStack.length === 0 ? true: false;
     },
     interpret: function(tokens, inputs) {
       for (i = 0; i < tokens.length; i++) {
