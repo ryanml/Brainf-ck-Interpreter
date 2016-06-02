@@ -5,6 +5,7 @@ window.onload = function() {
 
   // Constants
   const ALLOWED_CHARS = "+-<>[].,\n ";
+  const ASCII_MAX = 255;
 
   // Dom elements
   var codeArea = document.getElementById('code');
@@ -90,14 +91,17 @@ window.onload = function() {
     interpret: function(tokens) {
       var loops = 0;
       for (var c = 0; c < tokens.length; c++) {
+        // Set stack location to zero if it is uninitialized, else 0
+        this.stack[this.ptr] = this.stack[this.ptr] || 0;
+        var val = this.stack[this.ptr];
         switch(tokens[c]) {
           case '+':
-            this.stack[this.ptr] = this.stack[this.ptr] || 0;
-            this.stack[this.ptr]++;
+            // Set value to 0 if we are at the max ascii value, else, add 1
+            this.stack[this.ptr] = val === ASCII_MAX ? 0 : val + 1;
             break;
           case '-':
-            this.stack[this.ptr] = this.stack[this.ptr] || 0;
-            this.stack[this.ptr]--;
+            // Set value to the max ascii value if we are at 0, else, subtract 1
+            this.stack[this.ptr] = val === 0 ? ASCII_MAX : val - 1;
             break;
           case '<':
             if (this.ptr === 0) {
@@ -116,7 +120,7 @@ window.onload = function() {
             }
             break;
           case '[':
-            if (this.stack[this.ptr] === 0) {
+            if (val === 0) {
               // If the current val is at 0, move over one
               c++;
               // While we have not reached the next closing brack and var loops > 0
@@ -135,7 +139,7 @@ window.onload = function() {
             break;
           case ']':
             // If current val is 0, move back one
-            if (this.stack[this.ptr] !== 0) {
+            if (val !== 0) {
               c--;
               // if we are not at a closing bracket and loops is greater than 0
               while (tokens[c] !== '[' || loops > 0) {
@@ -154,11 +158,7 @@ window.onload = function() {
             }
             break;
           case '.':
-            var asciiMax = 256;
-            var val = this.stack[this.ptr];
-            // If value at cell is negative, go down from the max ascii value for this program (256)
-            var cc = val < 0 ? (asciiMax + val) : val;
-            var asciiChar = String.fromCharCode(cc);
+            var asciiChar = String.fromCharCode(val);
             output.value += asciiChar;
             break;
           case ',':
