@@ -117,35 +117,48 @@ window.onload = function() {
             break;
           case '[':
             if (this.stack[this.ptr] === 0) {
+              // If the current val is at 0, move over one
               c++;
+              // While we have not reached the next closing brack and var loops > 0
               while (tokens[c] !== ']' || loops > 0) {
+                // Increment or decrement loop count if we reach an opening or closing bracket
                 if (tokens[c] === '[') {
                   loops++;
                 }
                 else if (tokens[c] === ']') {
                   loops--;
                 }
+                // Move over one token
                 c++;
               }
             }
             break;
           case ']':
+            // If current val is 0, move back one
             if (this.stack[this.ptr] !== 0) {
               c--;
+              // if we are not at a closing bracket and loops is greater than 0
               while (tokens[c] !== '[' || loops > 0) {
+                // Increment or decrement loop count if we reach a closing or opening bracket
                 if (tokens[c] === ']') {
                   loops++;
                 }
                 else if (tokens[c] === '[') {
                   loops--;
                 }
+                // Move back one token
                 c--;
               }
+              // Move back one token
               c--;
             }
             break;
           case '.':
-            var asciiChar = String.fromCharCode(this.stack[this.ptr]);
+            var asciiMax = 256;
+            var val = this.stack[this.ptr];
+            // If value at cell is negative, go down from the max ascii value for this program (256)
+            var cc = val < 0 ? (asciiMax + val) : val;
+            var asciiChar = String.fromCharCode(cc);
             output.value += asciiChar;
             break;
           case ',':
