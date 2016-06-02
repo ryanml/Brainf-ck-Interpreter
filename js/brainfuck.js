@@ -97,11 +97,21 @@ window.onload = function() {
         switch(tokens[c]) {
           case '+':
             // Set value to 0 if we are at the max ascii value, else, add 1
-            this.stack[this.ptr] = val === ASCII_MAX ? 0 : val + 1;
+            if (val === ASCII_MAX) {
+              this.stack[this.ptr] = 0;
+            }
+            else {
+              this.stack[this.ptr]++;
+            }
             break;
           case '-':
             // Set value to the max ascii value if we are at 0, else, subtract 1
-            this.stack[this.ptr] = val === 0 ? ASCII_MAX : val - 1;
+            if (val === 0) {
+              this.stack[this.ptr] = ASCII_MAX;
+            }
+            else {
+              this.stack[this.ptr]--;
+            }
             break;
           case '<':
             if (this.ptr === 0) {
