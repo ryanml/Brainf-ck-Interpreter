@@ -1,12 +1,31 @@
-textarea {
-  width:300px;
-  height:100px;
-}
-hr {
-  margin:20px 0px;
+body {
+  background:#2f2f1e;
+  font-family:courier;
+  color: #d9d9d9;
 }
 #wrapper {
   text-align:center;
+}
+textarea.bf-text {
+  width:40%;
+  height:200px;
+}
+.bf-text, .bf-button {
+  background:#000000;
+  border:#1f1f14;
+  border-radius:4px;
+  padding:5px;
+  font-family:courier;
+  color:#ffffff;
+}
+.bf-text {
+  width:40%;
+}
+.bf-button {
+  border:1px solid #ffffff;
+}
+hr {
+  margin:20px 0px;
 }
 .button-panel {
   margin:10px 0px;
