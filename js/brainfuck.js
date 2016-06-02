@@ -4,7 +4,7 @@
 window.onload = function() {
 
   // Constants
-  const ALLOWED_CHARS = '+-<>[]., ';
+  const ALLOWED_CHARS = "+-<>[].,\n ";
 
   // Dom elements
   var codeArea = document.getElementById('code');
@@ -36,6 +36,7 @@ window.onload = function() {
     }
     error.innerHTML = '';
   }
+
   // Interpreter object
   var interpreter = {
     // Starts with a stack and a pointer to the first index
@@ -87,8 +88,9 @@ window.onload = function() {
       return pStack.length === 0 ? true: false;
     },
     interpret: function(tokens) {
-      for (i = 0; i < tokens.length; i++) {
-        switch(tokens[i]) {
+      var loops = 0;
+      for (var c = 0; c < tokens.length; c++) {
+        switch(tokens[c]) {
           case '+':
             this.stack[this.ptr] = this.stack[this.ptr] || 0;
             this.stack[this.ptr]++;
@@ -114,8 +116,33 @@ window.onload = function() {
             }
             break;
           case '[':
+            if (this.stack[this.ptr] === 0) {
+              c++;
+              while (tokens[c] !== ']' || loops > 0) {
+                if (tokens[c] === '[') {
+                  loops++;
+                }
+                else if (tokens[c] === ']') {
+                  loops--;
+                }
+                c++;
+              }
+            }
             break;
           case ']':
+            if (this.stack[this.ptr] !== 0) {
+              c--;
+              while (tokens[c] !== '[' || loops > 0) {
+                if (tokens[c] === ']') {
+                  loops++;
+                }
+                else if (tokens[c] === '[') {
+                  loops--;
+                }
+                c--;
+              }
+              c--;
+            }
             break;
           case '.':
             var asciiChar = String.fromCharCode(this.stack[this.ptr]);
