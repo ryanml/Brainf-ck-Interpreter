@@ -1,7 +1,8 @@
 body {
-  background:#2f2f1e;
+  background:#222211;
   font-family:courier;
   color: #d9d9d9;
+  font-size:1.4em;
 }
 #wrapper {
   text-align:center;
@@ -15,7 +16,7 @@ textarea.bf-text {
   border:#1f1f14;
   border-radius:4px;
   padding:5px;
-  font-family:courier;
+  font-family:inherit;
   color:#ffffff;
 }
 .bf-text {
@@ -23,13 +24,24 @@ textarea.bf-text {
 }
 .bf-button {
   border:1px solid #ffffff;
+  vertical-align:middle;
+}
+#run {
+  margin:10px 0px;
+  width:100px;
+  height:60px;
+  font-size:1.3em;
 }
 hr {
   margin:20px 0px;
 }
 .button-panel {
-  margin:10px 0px;
+  margin:20px 0px;
 }
 #error {
+  height:20px;
+  margin:20px 0px;
+  font-size:1.2em;
+  font-weight:bold;
   color:#ff0000;
 }

@@ -10,33 +10,24 @@ window.onload = function() {
   // Dom elements
   var codeArea = document.getElementById('code');
   var inputArea = document.getElementById('code-input');
-  var output = document.getElementById('code-output');
+  var outputArea = document.getElementById('code-output');
   var error = document.getElementById('error');
   var run = document.getElementById('run');
-  var clearInputs = document.getElementById('clear-input');
+  var clearCode = document.getElementById('clear-code');
+  var clearInput = document.getElementById('clear-input');
   var clearOutput = document.getElementById('clear-output');
 
   // Events
-  run.addEventListener('click', start);
-  clearInputs.addEventListener('click', clearFields);
-  clearOutput.addEventListener('click', clearFields);
-
-  // Start event
-  function start() {
-    interpreter.parse(codeArea.value, inputArea.value);
-  }
-
-  // Clears all fields
-  function clearFields() {
-    if (this.id === 'clear-input') {
-      codeArea.value = '';
-      inputArea.value = '';
-    }
-    else {
-      output.value = '';
-    }
-    error.innerHTML = '';
-  }
+  run.addEventListener('click', () => {
+    interpreter.parse(codeArea.value, inputArea.value)
+  });
+  clearCode.addEventListener('click', () => {
+    codeArea.value = ''; error.innerHTML = '';
+  });
+  clearInput.addEventListener('click', () => { inputArea.value = '' });
+  clearOutput.addEventListener('click', () => {
+    outputArea.value = ''; error.innerHTML = '';
+   });
 
   // Interpreter object
   var interpreter = {
@@ -164,7 +155,7 @@ window.onload = function() {
             break;
           case '.':
             var asciiChar = String.fromCharCode(val);
-            output.value += asciiChar;
+            outputArea.value += asciiChar;
             break;
           case ',':
             if (this.input.length > 0) {

@@ -8,32 +8,31 @@
 <body>
   <div id="wrapper">
     <header>
-      <h2>Brainfuck Interpreter</h2>
+      <h1>Brainfuck Interpreter</h1>
     </header>
     <div id="input-panel">
-      <p>
-        <strong>Code:</strong>
-      </p>
-      <textarea class="bf-text" id="code"></textarea>
-      <p>
-        <strong>Input:</strong>
-      </p>
-      <input class="bf-text" id="code-input"/>
       <div class="button-panel">
+        <strong>Code:</strong>
+        <button class="bf-button" id="clear-code">Clear</button>
+      </div>
+      <div id="error"></div>
+      <textarea class="bf-text" id="code"></textarea>
+      <div class="button-panel" style="margin:25px 0px">
+        <strong>Input:</strong>
         <button class="bf-button" id="clear-input">Clear</button>
       </div>
+      <input class="bf-text" id="code-input"/>
+    </div>
+    <div class="button-panel">
+      <button class="bf-button" id="run">Run</button>
     </div>
     <hr/>
     <div id="output-panel">
-      <p>
-        <strong>Output:</strong>
-      </p>
-      <p id="error"></p>
-      <textarea class="bf-text" id="code-output"></textarea>
       <div class="button-panel">
-        <button class="bf-button" id="run">Run</button>
+        <strong>Output:</strong>
         <button class="bf-button" id="clear-output">Clear</button>
       </div>
+      <textarea class="bf-text" id="code-output"></textarea>
     </div>
    </div>
 </body>
