@@ -4,7 +4,7 @@
 window.onload = function() {
 
   // Constants
-  const ALLOWED_CHARS = "+-<>[].,\n ";
+  const BF_TOKENS = "+-<>[].,";
   const ASCII_MAX = 255;
 
   // Dom elements
@@ -54,20 +54,15 @@ window.onload = function() {
         this.giveError('You must input some code');
       }
       else {
-        var badChars = tokens.filter((token) =>
-          ALLOWED_CHARS.indexOf(token) < 0
+        tokens = tokens.filter((token) =>
+          BF_TOKENS.indexOf(token) > -1
         );
-        if (badChars.length > 0) {
-          this.giveError('Illegal Character(s)');
+        var validSyntax = this.checkSyntax(tokens);
+        if (validSyntax) {
+          this.interpret(tokens);
         }
         else {
-          var validSyntax = this.checkSyntax(tokens);
-          if (validSyntax) {
-            this.interpret(tokens);
-          }
-          else {
-            this.giveError('Syntax error.');
-          }
+          this.giveError('Syntax error.');
         }
       }
     },
