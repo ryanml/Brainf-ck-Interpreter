@@ -27,7 +27,7 @@ window.onload = function() {
   clearInput.addEventListener('click', () => { inputArea.value = '' });
   clearOutput.addEventListener('click', () => {
     outputArea.value = ''; error.innerHTML = '';
-   });
+  });
 
   // Interpreter object
   var interpreter = {
@@ -35,7 +35,7 @@ window.onload = function() {
     stack: [],
     ptr: 0,
     input: [],
-    // Checks for illegal characters
+    // Gets valid BF characters
     parse: function(code, input) {
       this.stack = [];
       this.ptr = 0;
@@ -53,10 +53,11 @@ window.onload = function() {
           this.interpret(tokens);
         }
         else {
-          this.giveError('Syntax error.');
+          this.giveError('Syntax error');
         }
       }
     },
+    // Checks for syntax errors (Misplaced brackets)
     checkSyntax: function(tokens) {
       var pStack = [];
       for (c = 0; c < tokens.length; c++) {
