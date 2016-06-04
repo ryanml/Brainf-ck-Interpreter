@@ -11,22 +11,44 @@ window.onload = function() {
   var codeArea = document.getElementById('code');
   var inputArea = document.getElementById('code-input');
   var outputArea = document.getElementById('code-output');
+  var exSelect = document.getElementById('example-code');
   var error = document.getElementById('error');
   var run = document.getElementById('run');
   var clearCode = document.getElementById('clear-code');
   var clearInput = document.getElementById('clear-input');
   var clearOutput = document.getElementById('clear-output');
 
+  // Brainfuck code examples
+  var code = {
+    ad: ',>,[<+>-]<------------------------------------------------.',
+    hw: '++++++++++[>+++++++>++++++++++>+++>+<<<<-]>++.>+.+++++++..+++.>++.<<+++++++++++++++.>.+++.------.--------.>+.>.',
+    gs: '++++[>+++++<-]>[<+++++>-]+<+[>[>+>+<<-]++>>[<<+>>-]>>>[-]++>[-]+>>>+[[-]++++++>>>]<<<[[<++++++++<++>>-]+<.<[>----<-]<]<<[>>>>>[>>>[-]+++++++++<[>-<-]+++++++++>[-[<->-]+[<<<]]<[>+<-]>]<<-]<<-]',
+    fb: '+++++++++++>+>>>>++++++++++++++++++++++++++++++++++++++++++++>++++++++++++++++++++++++++++++++<<<<<<[>[>>>>>>+>+<<<<<<<-]>>>>>>>[<<<<<<<+>>>>>>>-]<[>++++++++++[-<-[>>+>+<<<-]>>>[<<<+>>>-]+<[>[-]<[-]]>[<<[>>>+<<<-]>>[-]]<<]>>>[>>+>+<<<-]>>>[<<<+>>>-]+<[>[-]<[-]]>[<<+>>[-]]<<<<<<<]>>>>>[++++++++++++++++++++++++++++++++++++++++++++++++.[-]]++++++++++<[->-<]>++++++++++++++++++++++++++++++++++++++++++++++++.[-]<<<<<<<<<<<<[>>>+>+<<<<-]>>>>[<<<<+>>>>-]<-[>>.>.<<<[-]]<<[>>+>+<<<-]>>>[<<<+>>>-]<<[<+>-]>[<+>-]<<<-]'
+  };
+
   // Events
   run.addEventListener('click', () => {
-    interpreter.parse(codeArea.value, inputArea.value)
+    interpreter.parse(codeArea.value, inputArea.value);
   });
   clearCode.addEventListener('click', () => {
-    codeArea.value = ''; error.innerHTML = '';
+    codeArea.value = '';
+    error.innerHTML = '';
   });
-  clearInput.addEventListener('click', () => { inputArea.value = '' });
+  clearInput.addEventListener('click', () => {
+    inputArea.value = '';
+  });
   clearOutput.addEventListener('click', () => {
-    outputArea.value = ''; error.innerHTML = '';
+    outputArea.value = '';
+    error.innerHTML = '';
+  });
+  exSelect.addEventListener('change', function() {
+    if (this.value === 'df') {
+      codeArea.value = '';
+    }
+    else {
+      codeArea.value = code[this.value];
+      outputArea.value = '';
+    }
   });
 
   // Interpreter object

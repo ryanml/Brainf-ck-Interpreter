@@ -10,30 +10,60 @@
     <header>
       <h1>Brainfuck Interpreter</h1>
     </header>
-    <div id="input-panel">
+    <div id="code-panel">
       <div class="button-panel">
         <strong>Code:</strong>
         <button class="bf-button" id="clear-code">Clear</button>
       </div>
-      <div id="error"></div>
       <textarea class="bf-text" id="code"></textarea>
-      <div class="button-panel" style="margin:25px 0px">
+    </div>
+    <div id="example-panel">
+      <h3>Example Code:</h3>
+      <select id="example-code">
+         <option value="df" selected>
+           Choose an example
+         </option>
+         <option value="hw">
+           Hello World!
+         </option>
+         <option value="ad">
+           Add two digits
+         </option>
+         <option value="gs">
+           Generate Squares
+         </option>
+         <option value="fb">
+           Fibonacci series
+         </option>
+      </select>
+    </div>
+    <div id="input-panel">
+      <div class="button-panel">
         <strong>Input:</strong>
         <button class="bf-button" id="clear-input">Clear</button>
       </div>
-      <input class="bf-text" id="code-input"/>
+      <textarea class="bf-text" id="code-input"></textarea>
     </div>
+    <div style="clear:both"></div>
     <div class="button-panel">
       <button class="bf-button" id="run">Run</button>
+      <div id="error"></div>
     </div>
     <hr/>
-    <div id="output-panel">
-      <div class="button-panel">
-        <strong>Output:</strong>
-        <button class="bf-button" id="clear-output">Clear</button>
+      <div id="output-panel">
+        <div class="button-panel">
+          <strong>Output:</strong>
+          <button class="bf-button" id="clear-output">Clear</button>
+        </div>
+        <textarea class="bf-text" id="code-output"></textarea>
       </div>
-      <textarea class="bf-text" id="code-output"></textarea>
-    </div>
+      <div id="script-panel">
+        <div class="button-panel">
+          <strong>Javascript:</strong>
+          <button class="bf-button" id="clear-script">Clear</button>
+        </div>
+        <textarea class="bf-text" id="script-output"></textarea>
+      </div>
    </div>
 </body>
 </html>

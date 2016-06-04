@@ -1,14 +1,61 @@
 body {
-  background:#222211;
+  background:#404040;
   font-family:courier;
   color: #d9d9d9;
   font-size:1em;
 }
+h1 {
+  color:#ffffff;
+}
+hr {
+  margin:20px 0px;
+}
 #wrapper {
   text-align:center;
 }
-textarea.bf-text {
-  width:40%;
+#code-panel {
+  float:left;
+  width:33%;
+}
+#example-panel {
+  display:inline-block;
+  width:33%;
+}
+#input-panel {
+  float:right;
+  width:33%;
+}
+#example-code {
+  width:60%;
+  padding:5px;
+  background: #000000;
+  border:1px solid #ffffff;
+  font-family:inherit;
+  color:#ffffff;
+}
+#error {
+  height:20px;
+  margin:20px 0px;
+  font-size:1.2em;
+  font-weight:bold;
+  color:#ff0000;
+}
+#run {
+  margin:10px 0px;
+  width:100px;
+  height:60px;
+  font-size:1.3em;
+}
+#output-panel {
+  float:left;
+  width:50%;
+}
+#script-panel {
+  float:right;
+  width:50%;
+}
+.bf-text {
+  width:80%;
   height:200px;
 }
 .bf-text, .bf-button {
@@ -19,29 +66,10 @@ textarea.bf-text {
   font-family:inherit;
   color:#ffffff;
 }
-.bf-text {
-  width:40%;
-}
 .bf-button {
   border:1px solid #ffffff;
   vertical-align:middle;
 }
-#run {
-  margin:10px 0px;
-  width:100px;
-  height:60px;
-  font-size:1.3em;
-}
-hr {
-  margin:20px 0px;
-}
 .button-panel {
   margin:20px 0px;
-}
-#error {
-  height:20px;
-  margin:20px 0px;
-  font-size:1.2em;
-  font-weight:bold;
-  color:#ff0000;
 }
