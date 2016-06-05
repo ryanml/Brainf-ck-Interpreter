@@ -223,7 +223,7 @@ window.onload = function() {
             this.script += 'console.log(String.fromCharCode(mem[ptr]));\n';
             break;
           case ',':
-            this.script += 'mem[ptr] = mem[ptr] || 0;\nmem[ptr] = String(prompt("Enter value").charCodeAt(0));\n';
+            this.script += 'mem[ptr] = mem[ptr] || 0;\nmem[ptr] = prompt("Enter value").charCodeAt(0);\n';
             break;
         }
       }
