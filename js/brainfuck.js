@@ -11,12 +11,14 @@ window.onload = function() {
   var codeArea = document.getElementById('code');
   var inputArea = document.getElementById('code-input');
   var outputArea = document.getElementById('code-output');
+  var scriptArea = document.getElementById('script-output');
   var exSelect = document.getElementById('example-code');
   var error = document.getElementById('error');
   var run = document.getElementById('run');
   var clearCode = document.getElementById('clear-code');
   var clearInput = document.getElementById('clear-input');
   var clearOutput = document.getElementById('clear-output');
+  var clearScript = document.getElementById('clear-script');
 
   // Brainfuck code examples
   var code = {
@@ -41,6 +43,9 @@ window.onload = function() {
     outputArea.value = '';
     error.innerHTML = '';
   });
+  clearScript.addEventListener('click', () => {
+    scriptArea.value = '';
+  });
   exSelect.addEventListener('change', function() {
     if (this.value === 'df') {
       codeArea.value = '';
@@ -48,6 +53,7 @@ window.onload = function() {
     else {
       codeArea.value = code[this.value];
       outputArea.value = '';
+      scriptArea.value = '';
     }
   });
 
@@ -57,11 +63,13 @@ window.onload = function() {
     stack: [],
     ptr: 0,
     input: [],
+    script: '',
     // Gets valid BF characters
     parse: function(code, input) {
       this.stack = [];
       this.ptr = 0;
       this.input = [...input];
+      this.script = 'var mem = [];\nvar ptr = 0;\n';
       var tokens = [...code];
       if (tokens.length === 0) {
         this.giveError('You must input some code');
@@ -103,7 +111,7 @@ window.onload = function() {
         // Set stack location to zero if it is uninitialized, else 0
         this.stack[this.ptr] = this.stack[this.ptr] || 0;
         var val = this.stack[this.ptr];
-        switch(tokens[c]) {
+        switch (tokens[c]) {
           case '+':
             // Set value to 0 if we are at the max ascii value, else, add 1
             if (val === ASCII_MAX) {
@@ -187,6 +195,39 @@ window.onload = function() {
             break;
         }
       }
+      this.genScript(tokens);
+    },
+    genScript: function(tokens) {
+      this.script += 'mem[ptr] = mem[ptr] || 0;\n';
+      for (var s = 0; s < tokens.length; s++) {
+        switch (tokens[s]) {
+          case '+':
+            this.script += 'mem[ptr]++;\n';
+            break;
+          case '-':
+            this.script += 'mem[ptr]--;\n';
+            break;
+          case '<':
+            this.script += 'ptr--;\nmem[ptr] = mem[ptr] || 0;\n';
+            break;
+          case '>':
+            this.script += 'ptr++;\nmem[ptr] = mem[ptr] || 0;\n';
+            break;
+          case '[':
+            this.script += 'while (mem[ptr] !== 0) {\n';
+            break;
+          case ']':
+            this.script += '}\n';
+            break;
+          case '.':
+            this.script += 'console.log(String.fromCharCode(mem[ptr]));\n';
+            break;
+          case ',':
+            this.script += 'mem[ptr] = mem[ptr] || 0;\nmem[ptr] = String(prompt("Enter value").charCodeAt(0));\n';
+            break;
+        }
+      }
+      scriptArea.value = this.script;
     },
     giveError: function(msg) {
       error.innerHTML = msg;
