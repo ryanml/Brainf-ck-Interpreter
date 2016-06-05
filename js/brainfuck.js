@@ -69,7 +69,7 @@ window.onload = function() {
       this.stack = [];
       this.ptr = 0;
       this.input = [...input];
-      this.script = 'var mem = [];\nvar ptr = 0;\n';
+      this.script = 'var mem = [];\nvar ptr = 0;\nvar am = 255;\n';
       var tokens = [...code];
       if (tokens.length === 0) {
         this.giveError('You must input some code');
@@ -202,10 +202,10 @@ window.onload = function() {
       for (var s = 0; s < tokens.length; s++) {
         switch (tokens[s]) {
           case '+':
-            this.script += 'mem[ptr]++;\n';
+            this.script += 'mem[ptr] = mem[ptr] === am ? 0 : mem[ptr] + 1;\n';
             break;
           case '-':
-            this.script += 'mem[ptr]--;\n';
+            this.script += 'mem[ptr] = mem[ptr] === 0 ? am : mem[ptr] - 1;\n';
             break;
           case '<':
             this.script += 'ptr--;\nmem[ptr] = mem[ptr] || 0;\n';
