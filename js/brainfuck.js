@@ -198,36 +198,47 @@ window.onload = function() {
       this.genScript(tokens);
     },
     genScript: function(tokens) {
+      var ic = 0;
       this.script += 'mem[ptr] = mem[ptr] || 0;\n';
       for (var s = 0; s < tokens.length; s++) {
+        var ind = this.getIndent(ic);
         switch (tokens[s]) {
           case '+':
-            this.script += 'mem[ptr] = mem[ptr] === am ? 0 : mem[ptr] + 1;\n';
+            this.script += ind + 'mem[ptr] = mem[ptr] === am ? 0 : mem[ptr] + 1;\n';
             break;
           case '-':
-            this.script += 'mem[ptr] = mem[ptr] === 0 ? am : mem[ptr] - 1;\n';
+            this.script += ind + 'mem[ptr] = mem[ptr] === 0 ? am : mem[ptr] - 1;\n';
             break;
           case '<':
-            this.script += 'ptr--;\nmem[ptr] = mem[ptr] || 0;\n';
+            this.script += ind + 'ptr--;\n' + ind + 'mem[ptr] = mem[ptr] || 0;\n';
             break;
           case '>':
-            this.script += 'ptr++;\nmem[ptr] = mem[ptr] || 0;\n';
+            this.script += ind + 'ptr++;\n' + ind + 'mem[ptr] = mem[ptr] || 0;\n';
             break;
           case '[':
-            this.script += 'while (mem[ptr] !== 0) {\n';
+            this.script += ind + 'while (mem[ptr] !== 0) {\n';
+            ic++;
             break;
           case ']':
-            this.script += '}\n';
+            ind = this.getIndent(--ic);
+            this.script += ind + '}\n';
             break;
           case '.':
-            this.script += 'console.log(String.fromCharCode(mem[ptr]));\n';
+            this.script += ind + 'console.log(String.fromCharCode(mem[ptr]));\n';
             break;
           case ',':
-            this.script += 'mem[ptr] = mem[ptr] || 0;\nmem[ptr] = prompt("Enter value").charCodeAt(0);\n';
+            this.script += ind + 'mem[ptr] = prompt("Enter value").charCodeAt(0);\n';
             break;
         }
       }
       scriptArea.value = this.script;
+    },
+    getIndent: function(i) {
+      var sp = '';
+      for (var d = 0; d < i; d++) {
+        sp += '  ';
+      }
+      return sp;
     },
     giveError: function(msg) {
       error.innerHTML = msg;
