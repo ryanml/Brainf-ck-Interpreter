@@ -9,10 +9,12 @@ window.onload = function() {
 
   // Dom elements
   var codeArea = document.getElementById('code');
+  var exSelect = document.getElementById('example-code');
+  var langSelect = document.getElementById('lang-select');
   var inputArea = document.getElementById('code-input');
   var outputArea = document.getElementById('code-output');
-  var scriptArea = document.getElementById('script-output');
-  var exSelect = document.getElementById('example-code');
+  var cArea = document.getElementById('c-output');
+  var jsArea = document.getElementById('js-output');
   var error = document.getElementById('error');
   var run = document.getElementById('run');
   var clearCode = document.getElementById('clear-code');
@@ -44,7 +46,12 @@ window.onload = function() {
     error.innerHTML = '';
   });
   clearScript.addEventListener('click', () => {
-    scriptArea.value = '';
+    if (cArea.style.display === '') {
+      cArea.value = '';
+    }
+    else {
+      jsArea.value = '';
+    }
   });
   exSelect.addEventListener('change', function() {
     if (this.value === 'df') {
@@ -53,7 +60,18 @@ window.onload = function() {
     else {
       codeArea.value = code[this.value];
       outputArea.value = '';
-      scriptArea.value = '';
+      cArea.value = '';
+      jsArea.value = '';
+    }
+  });
+  langSelect.addEventListener('change', function() {
+    if (this.value === 'js') {
+      cArea.style.display = 'none';
+      jsArea.style.display = '';
+    }
+    else {
+      cArea.style.display = '';
+      jsArea.style.display = 'none';
     }
   });
 
@@ -63,13 +81,15 @@ window.onload = function() {
     stack: [],
     ptr: 0,
     input: [],
-    script: '',
-    // Gets valid BF characters
+    c: '',
+    js: '',
+    // Gets valid BF characters, resets attributes
     parse: function(code, input) {
       this.stack = [];
       this.ptr = 0;
       this.input = [...input];
-      this.script = 'var mem = [];\nvar ptr = 0;\nvar am = 255;\n';
+      this.c = '#include <stdio.h>\n#include <stdlib.h>\n\nunsigned char *ptr;\nunsigned char mem[30000];\n\nint main(int argc, char **argv) {\n  ptr = mem;\n';
+      this.js = 'var mem = [];\nvar ptr = 0;\nvar am = 255;\n';
       var tokens = [...code];
       if (tokens.length === 0) {
         this.giveError('You must input some code');
@@ -195,43 +215,56 @@ window.onload = function() {
             break;
         }
       }
-      this.genScript(tokens);
+      this.transpile(tokens);
     },
-    genScript: function(tokens) {
-      var ic = 0;
-      this.script += 'mem[ptr] = mem[ptr] || 0;\n';
+    transpile: function(tokens) {
+      var ci = 1;
+      var ji = 0;
+      this.js += 'mem[ptr] = mem[ptr] || 0;\n';
       for (var s = 0; s < tokens.length; s++) {
-        var ind = this.getIndent(ic);
+        var cind = this.getIndent(ci);
+        var jind = this.getIndent(ji);
         switch (tokens[s]) {
           case '+':
-            this.script += ind + 'mem[ptr] = mem[ptr] === am ? 0 : mem[ptr] + 1;\n';
+            this.c += cind + '++*ptr;\n';
+            this.js += jind + 'mem[ptr] = mem[ptr] === am ? 0 : mem[ptr] + 1;\n';
             break;
           case '-':
-            this.script += ind + 'mem[ptr] = mem[ptr] === 0 ? am : mem[ptr] - 1;\n';
+            this.c += cind + '--*ptr;\n';
+            this.js += jind + 'mem[ptr] = mem[ptr] === 0 ? am : mem[ptr] - 1;\n';
             break;
           case '<':
-            this.script += ind + 'ptr--;\n' + ind + 'mem[ptr] = mem[ptr] || 0;\n';
+            this.c += cind + '--ptr;\n';
+            this.js += jind + 'ptr--;\n' + jind + 'mem[ptr] = mem[ptr] || 0;\n';
             break;
           case '>':
-            this.script += ind + 'ptr++;\n' + ind + 'mem[ptr] = mem[ptr] || 0;\n';
+            this.c += cind + '++ptr;\n';
+            this.js += jind + 'ptr++;\n' + jind + 'mem[ptr] = mem[ptr] || 0;\n';
             break;
           case '[':
-            this.script += ind + 'while (mem[ptr] !== 0) {\n';
-            ic++;
+            this.c += cind + 'while (*ptr) {\n';
+            this.js += jind + 'while (mem[ptr] !== 0) {\n';
+            ci++;
+            ji++;
             break;
           case ']':
-            ind = this.getIndent(--ic);
-            this.script += ind + '}\n';
+            cind = this.getIndent(--ci);
+            jind = this.getIndent(--ji);
+            this.c += cind + '}\n';
+            this.js += jind + '}\n';
             break;
           case '.':
-            this.script += ind + 'console.log(String.fromCharCode(mem[ptr]));\n';
+            this.c += cind + 'putchar(*ptr);\n';
+            this.js += jind + 'console.log(String.fromCharCode(mem[ptr]));\n';
             break;
           case ',':
-            this.script += ind + 'mem[ptr] = prompt("Enter value").charCodeAt(0);\n';
+            this.c += cind + '*ptr = getchar();\n';
+            this.js += jind + 'mem[ptr] = prompt("Enter value").charCodeAt(0);\n';
             break;
         }
       }
-      scriptArea.value = this.script;
+      cArea.value = this.c + '  return 0;\n}';
+      jsArea.value = this.js;
     },
     getIndent: function(i) {
       var sp = '';

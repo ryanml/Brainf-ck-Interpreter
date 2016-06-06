@@ -25,7 +25,7 @@ hr {
   float:right;
   width:33%;
 }
-#example-code {
+.bf-select {
   width:60%;
   padding:5px;
   background: #000000;
@@ -53,6 +53,9 @@ hr {
 #script-panel {
   float:right;
   width:50%;
+}
+#lang-select {
+  width:40%;
 }
 .bf-text {
   width:80%;

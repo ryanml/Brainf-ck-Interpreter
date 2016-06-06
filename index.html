@@ -19,7 +19,7 @@
     </div>
     <div id="example-panel">
       <h3>Example Code:</h3>
-      <select id="example-code">
+      <select class="bf-select" id="example-code">
          <option value="df" selected>
            Choose an example
          </option>
@@ -59,10 +59,18 @@
       </div>
       <div id="script-panel">
         <div class="button-panel">
-          <strong>Javascript:</strong>
+          <select class="bf-select" id="lang-select">
+            <option value="c" selected>
+              C
+            </option>
+            <option value="js">
+              Javascript
+            </option>
+          </select>
           <button class="bf-button" id="clear-script">Clear</button>
         </div>
-        <textarea class="bf-text" id="script-output"></textarea>
+        <textarea class="bf-text" id="c-output"></textarea>
+        <textarea class="bf-text" id="js-output" style="display:none"></textarea>
       </div>
    </div>
 </body>
