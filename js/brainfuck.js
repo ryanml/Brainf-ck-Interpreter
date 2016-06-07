@@ -2,6 +2,8 @@
 // Author: Ryan Lanese
 
 window.onload = function() {
+  // Strict mode
+  'use strict';
 
   // Constants
   const BF_TOKENS = "+-<>[].,";
@@ -13,8 +15,7 @@ window.onload = function() {
   var langSelect = document.getElementById('lang-select');
   var inputArea = document.getElementById('code-input');
   var outputArea = document.getElementById('code-output');
-  var cArea = document.getElementById('c-output');
-  var jsArea = document.getElementById('js-output');
+  var tArea = document.getElementById('t-output');
   var error = document.getElementById('error');
   var run = document.getElementById('run');
   var clearCode = document.getElementById('clear-code');
@@ -32,26 +33,20 @@ window.onload = function() {
 
   // Events
   run.addEventListener('click', () => {
+    outputArea.value = error.innerHTML = tArea.value = '';
     interpreter.parse(codeArea.value, inputArea.value);
   });
   clearCode.addEventListener('click', () => {
-    codeArea.value = '';
-    error.innerHTML = '';
+    codeArea.value = error.innerHTML = '';
   });
   clearInput.addEventListener('click', () => {
     inputArea.value = '';
   });
   clearOutput.addEventListener('click', () => {
-    outputArea.value = '';
-    error.innerHTML = '';
+    outputArea.value = error.innerHTML = '';
   });
   clearScript.addEventListener('click', () => {
-    if (cArea.style.display === '') {
-      cArea.value = '';
-    }
-    else {
-      jsArea.value = '';
-    }
+    tArea.value = '';
   });
   exSelect.addEventListener('change', function() {
     if (this.value === 'df') {
@@ -59,20 +54,11 @@ window.onload = function() {
     }
     else {
       codeArea.value = code[this.value];
-      outputArea.value = '';
-      cArea.value = '';
-      jsArea.value = '';
+      outputArea.value = tArea.value = '';
     }
   });
   langSelect.addEventListener('change', function() {
-    if (this.value === 'js') {
-      cArea.style.display = 'none';
-      jsArea.style.display = '';
-    }
-    else {
-      cArea.style.display = '';
-      jsArea.style.display = 'none';
-    }
+    tArea.value = this.value === 'js' ? interpreter.js : interpreter.c;
   });
 
   // Interpreter object
@@ -89,13 +75,12 @@ window.onload = function() {
       this.ptr = 0;
       this.input = [...input];
       this.c = '#include <stdio.h>\n#include <stdlib.h>\n\nunsigned char *ptr;\nunsigned char mem[30000];\n\nint main(int argc, char **argv) {\n  ptr = mem;\n';
-      this.js = 'var mem = [];\nvar ptr = 0;\nvar am = 255;\n';
-      var tokens = [...code];
-      if (tokens.length === 0) {
+      this.js = 'var mem = [];\nvar ptr = 0;\nvar am = 255;\nmem[ptr] = mem[ptr] || 0;\n';
+      if (code.length === 0) {
         this.giveError('You must input some code');
       }
       else {
-        tokens = tokens.filter((token) =>
+        var tokens = [...code].filter((token) =>
           BF_TOKENS.indexOf(token) > -1
         );
         var validSyntax = this.checkSyntax(tokens);
@@ -110,7 +95,7 @@ window.onload = function() {
     // Checks for syntax errors (Misplaced brackets)
     checkSyntax: function(tokens) {
       var pStack = [];
-      for (c = 0; c < tokens.length; c++) {
+      for (var c = 0; c < tokens.length; c++) {
         if (tokens[c] === '[') {
           pStack.push(tokens[c]);
         }
@@ -220,7 +205,6 @@ window.onload = function() {
     transpile: function(tokens) {
       var ci = 1;
       var ji = 0;
-      this.js += 'mem[ptr] = mem[ptr] || 0;\n';
       for (var s = 0; s < tokens.length; s++) {
         var cind = this.getIndent(ci);
         var jind = this.getIndent(ji);
@@ -263,8 +247,8 @@ window.onload = function() {
             break;
         }
       }
-      cArea.value = this.c + '  return 0;\n}';
-      jsArea.value = this.js;
+      this.c += '  return 0;\n}';
+      tArea.value = langSelect.value === 'c' ? this.c : this.js;
     },
     getIndent: function(i) {
       var sp = '';
