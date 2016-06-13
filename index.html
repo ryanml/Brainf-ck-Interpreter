@@ -1,55 +1,55 @@
 <!DOCTYPE HTML>
 <html>
-<head>
-  <title>Run Brainfuck</title>
-  <link rel="stylesheet" href="css/style.css"/>
-  <script type="text/javascript" src="js/brainfuck.js"></script>
-</head>
-<body>
-  <div id="wrapper">
-    <header>
-      <h1>Brainfuck Interpreter</h1>
-    </header>
-    <div id="code-panel">
-      <div class="button-panel">
-        <strong>Code:</strong>
-        <button class="bf-button" id="clear-code">Clear</button>
+  <head>
+    <title>Run Brainfuck</title>
+    <link rel="stylesheet" href="css/style.css"/>
+    <script type="text/javascript" src="js/brainfuck.js"></script>
+  </head>
+  <body>
+    <div id="wrapper">
+      <header>
+        <h1>Brainfuck Interpreter</h1>
+      </header>
+      <div id="code-panel">
+        <div class="button-panel">
+          <strong>Code:</strong>
+          <button class="bf-button" id="clear-code">Clear</button>
+        </div>
+        <textarea class="bf-text" id="code"></textarea>
       </div>
-      <textarea class="bf-text" id="code"></textarea>
-    </div>
-    <div id="example-panel">
-      <h3>Example Code:</h3>
-      <select class="bf-select" id="example-code">
-         <option value="df" selected>
-           Choose an example
-         </option>
-         <option value="hw">
-           Hello World!
-         </option>
-         <option value="ad">
-           Add two digits
-         </option>
-         <option value="gs">
-           Generate Squares
-         </option>
-         <option value="fb">
-           Fibonacci series
-         </option>
-      </select>
-    </div>
-    <div id="input-panel">
-      <div class="button-panel">
-        <strong>Input:</strong>
-        <button class="bf-button" id="clear-input">Clear</button>
+      <div id="example-panel">
+        <h3>Example Code:</h3>
+        <select class="bf-select" id="example-code">
+          <option value="df" selected>
+            Choose an example
+          </option>
+          <option value="hw">
+            Hello World!
+          </option>
+          <option value="ad">
+            Add two digits
+          </option>
+          <option value="gs">
+            Generate Squares
+          </option>
+          <option value="fb">
+            Fibonacci series
+          </option>
+        </select>
       </div>
-      <textarea class="bf-text" id="code-input"></textarea>
-    </div>
-    <div style="clear:both"></div>
-    <div class="button-panel">
-      <button class="bf-button" id="run">Run</button>
-      <div id="error"></div>
-    </div>
-    <hr/>
+      <div id="input-panel">
+        <div class="button-panel">
+          <strong>Input:</strong>
+          <button class="bf-button" id="clear-input">Clear</button>
+        </div>
+        <textarea class="bf-text" id="code-input"></textarea>
+      </div>
+      <div style="clear:both"></div>
+      <div class="button-panel">
+        <button class="bf-button" id="run">Run</button>
+        <div id="error"></div>
+      </div>
+      <hr/>
       <div id="output-panel">
         <div class="button-panel">
           <strong>Output:</strong>
@@ -71,6 +71,6 @@
         </div>
         <textarea class="bf-text" id="t-output"></textarea>
       </div>
-   </div>
-</body>
+    </div>
+  </body>
 </html>
