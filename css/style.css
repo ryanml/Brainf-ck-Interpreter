@@ -21,6 +21,29 @@ hr {
   display:inline-block;
   width:33%;
 }
+.cust-label {
+  font-size:12px;
+}
+.cust-text {
+  padding:5px;
+  background:#000000;
+  border:#1f1f14;
+  color:#ffffff;
+  text-align:center;
+  width:10px;
+}
+.block-cont {
+  margin:15px 0px;
+}
+.cust-out-block {
+  display:inline-block;
+  width:20%;
+  text-align:center
+}
+.cust-innr-block {
+  width:60%;
+  display:inline-block
+}
 #input-panel {
   float:right;
   width:33%;

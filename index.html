@@ -1,6 +1,7 @@
 <!DOCTYPE HTML>
 <html>
   <head>
+    <meta charset="UTF-8">
     <title>Run Brainfuck</title>
     <link rel="stylesheet" href="css/style.css"/>
     <script type="text/javascript" src="js/brainfuck.js"></script>
@@ -36,6 +37,80 @@
             Fibonacci series
           </option>
         </select>
+        <div id="customize-panel">
+          <h3>Customize:</h3>
+          <div class="block-cont">
+            <div class="cust-out-block">
+              <div class="cust-innr-block">
+                <span class="cust-label">left</span>
+                <div>
+                  <input id="dec-ptr" class="cust-text" value="<" type="text" maxlength="1"/>
+                </div>
+              </div>
+            </div>
+            <div class="cust-out-block">
+              <div class="cust-innr-block">
+                <span class="cust-label">right</span>
+                <div>
+                  <input id="inc-ptr" class="cust-text" value=">"  type="text" maxlength="1"/>
+                </div>
+              </div>
+            </div>
+            <div class="cust-out-block">
+              <div class="cust-innr-block">
+                <span class="cust-label">add</span>
+                <div>
+                  <input id="inc-a-ptr" class="cust-text" value="+"  type="text" maxlength="1"/>
+                </div>
+              </div>
+            </div>
+            <div class="cust-out-block">
+              <div class="cust-innr-block">
+                <span class="cust-label">sub</span>
+                <div>
+                  <input id="dec-a-ptr" class="cust-text" value="-"  type="text" maxlength="1"/>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="block-cont">
+            <div class="cust-out-block">
+              <div class="cust-innr-block">
+                <span class="cust-label">start loop</span>
+                <div>
+                  <input id="start-loop" class="cust-text" value="[" type="text" maxlength="1"/>
+                </div>
+              </div>
+            </div>
+            <div class="cust-out-block">
+              <div class="cust-innr-block">
+                <span class="cust-label">end loop</span>
+                <div>
+                  <input id="end-loop" class="cust-text" value="]" type="text" maxlength="1"/>
+                </div>
+              </div>
+            </div>
+            <div class="cust-out-block">
+              <div class="cust-innr-block">
+                <span class="cust-label">output</span>
+                <div>
+                  <input id="output" class="cust-text" value="." type="text" maxlength="1"/>
+                </div>
+              </div>
+            </div>
+            <div class="cust-out-block">
+              <div class="cust-innr-block">
+                <span class="cust-label">input</span>
+                <div>
+                  <input id="input" class="cust-text" value="," type="text" maxlength="1"/>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="button-panel">
+            <button class="bf-button" id="update-cmnd">Update</button>
+          </div>
+        </div>
       </div>
       <div id="input-panel">
         <div class="button-panel">
@@ -60,12 +135,8 @@
       <div id="script-panel">
         <div class="button-panel">
           <select class="bf-select" id="lang-select">
-            <option value="c" selected>
-              C
-            </option>
-            <option value="js">
-              Javascript
-            </option>
+            <option value="c" selected>C</option>
+            <option value="js">Javascript</option>
           </select>
           <button class="bf-button" id="clear-script">Clear</button>
         </div>
